@@ -88,7 +88,7 @@ yag=yagmail.SMTP('k9pialarm@gmail.com')
 
 def emailalert():
     lastemailsent=datetime.datetime.now()
-    receiver="jcoan8235@gmail.com"
+    receiver="youremailhere"
     body="A temperature sensor is in warning. Remove K9 / Investigate Immediately!"
     yag.send(
         to=receiver,
