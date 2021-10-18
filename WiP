@@ -56,40 +56,43 @@ def exitk9alarm():
         messagebox.showerror('Error', 'We dun Fucked Up')
 
 def savealarmvalues():
-    file=open('alarmvalues.txt','w+')
+    file=open('alarmvalues.txt','r+')
+    content=file.readlines()
     alarmthreshold = Toplevel(window)
     alarmthreshold.title("Set Alarm Threshold")
     alarmthreshold.geometry("300x200")
     enterhighalertvalue=Label(master=alarmthreshold, text="Enter Heat Alert Alarm Value:")
     enterhighalertvalue.grid(row=2, column=0)
     highalertalarmvalue=Entry(master=alarmthreshold)
-    highalertalarmvalue.insert(END, '88')
+    highalertalarmvalue.insert(0, content[0])
     enterhighwarningvalue=Label(master=alarmthreshold, text="Enter Heat Warning Alarm Value:")
     enterhighwarningvalue.grid(row=0, column=0)
     highwarningalarmvalue=Entry(master=alarmthreshold)
-    highwarningalarmvalue.insert(END, '78')
+    highwarningalarmvalue.insert(0, content[1])
     enterlowalertvalue=Label(master=alarmthreshold, text="Enter Cold Alert Alarm Value:")
     enterlowalertvalue.grid(row=6, column=0)
     lowalertalarmvalue=Entry(master=alarmthreshold)
-    lowalertalarmvalue.insert(END, '38')
+    lowalertalarmvalue.insert(0, content[3])
     enterlowwarningvalue=Label(master=alarmthreshold, text="Enter Cold Warning Alarm Value:")
     enterlowwarningvalue.grid(row=4, column=0)
     lowwarningalarmvalue=Entry(master=alarmthreshold)
-    lowwarningalarmvalue.insert(END, '48')
+    lowwarningalarmvalue.insert(0, content[2])
     highalertalarmvalue.grid(row=2, column=1)
     highwarningalarmvalue.grid(row=0, column=1)
     lowalertalarmvalue.grid(row=6, column=1)
     lowwarningalarmvalue.grid(row=4, column=1)
-    submitnewalarmvalues=Button(master=alarmthreshold, text="Submit New Alarm Values", command=lambda:[file.write(highalertalarmvalue.get() +'\n'), file.write(highwarningalarmvalue.get() +'\n'), file.write(lowwarningalarmvalue.get() +'\n'), file.write(lowalertalarmvalue.get() +'\n'),alarmthreshold.destroy()])
-    submitnewalarmvalues.grid(row=7, column=0, pady='50')
+    exitalarmvalue=Button(master=alarmthreshold, text="Exit", command=alarmthreshold.destroy)
+    exitalarmvalue.grid(row=7, column=1)
+    submitnewalarmvalues=Button(master=alarmthreshold, text="Save Alarm Values", command=lambda:[file.seek(0), file.write(highalertalarmvalue.get() + '\n'), file.write(highwarningalarmvalue.get() + '\n'), file.write(lowwarningalarmvalue.get() + '\n'), file.write(lowalertalarmvalue.get() + '\n')])
+    submitnewalarmvalues.grid(row=7, column=0)
 
 #Email ALert Setup
 yag=yagmail.SMTP('k9pialarm@gmail.com')
 
 def emailalert():
-    lastemailsent=datetime.datetime.now()
+    
     receiver="jcoan8235@gmail.com"
-    body="A temperature sensor is in warning. Remove K9 / Investigate Immediately!"
+    body="A temperature sensor is indicating an alert status. Remove K9 / Investigate Immediately!"
     yag.send(
         to=receiver,
         subject="K9 Pi Alarm",
@@ -157,12 +160,10 @@ class App():
 #Temperature Sensor 1 Update and Alarm
     def update_temp1(self):
         temp1 = 'Temp Sensor 1:\n{:0.2f}\N{DEGREE SIGN}'.format(tempsensor1.temperature * 1.8 + 32)
-        if tempsensor1.temperature * 1.8 + 32 > 84:
+        if tempsensor1.temperature * 1.8 + 32 > 88:
             self.templabel1.configure(text=temp1, fg='red')
         elif tempsensor1.temperature * 1.8 + 32 > 78:
-            self.templabel1.configure(text=temp1, fg='yellow');
-            if datetime.datetime.now > lastemailsent + 600:
-                emailalert()
+            self.templabel1.configure(text=temp1, fg='yellow')
             #pygame.mixer.music.load("home/pi/downloads/warning.mp3");
             #pygame.mixer.music.play()
         elif tempsensor1.temperature * 1.8 + 32 < 50:
