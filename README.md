@@ -5,6 +5,7 @@ K9 Pi Alarm is a Python based Rasberry Pi Alarm System that monitors air tempera
 The objective is to allow those with animals to monitor the temperature of a space and alert them when that space reaches levels they have set.
 This is very much a work in progress, code is not optimized, pretty, but it does function on my test device. 
 
+![Main Screen](https://user-images.githubusercontent.com/87459771/137964084-1bd78e60-e1ba-4933-966d-06d5b8687596.jpg)
 
 ## Items Required:
 - Adafruit SHT-31 Temperature Sensors (x2)
