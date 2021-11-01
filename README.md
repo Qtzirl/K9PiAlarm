@@ -26,3 +26,4 @@ This is very much a work in progress, code is not optimized, pretty, but it does
 ## Very Far Future / Need Help:
 - Interface with a Vehicle via Bluetooth OBD to send commands when temperature reaches alert to roll down windows and set off car alarm.
 - Some other way to alert a user (like a pager or beeper) that temperature has reached alert level. 
+- UI Update to a cleaner more professional look
