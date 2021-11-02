@@ -16,14 +16,15 @@ This is very much a work in progress, code is not optimized, pretty, but it does
 
 
 ## Future Fixes / Patches / Features:
-- Email / Text Alerts to notify you that the temperature has reached Warning / Alert Levels. (Requires Pi to have WiFi)
 - Play Audio to alert you that the temperature has reached Warning Level, sleep for certain time, play audio again.
 - Play a different audio file to alert you that the temperature has reached Alert Level and play continously until resolved.
 - Alert via Email/Text that the Pi is using battery power (Power Source TBD) and lost main power.
-
 
 
 ## Very Far Future / Need Help:
 - Interface with a Vehicle via Bluetooth OBD to send commands when temperature reaches alert to roll down windows and set off car alarm.
 - Some other way to alert a user (like a pager or beeper) that temperature has reached alert level. 
 - UI Update to a cleaner more professional look
+
+## Features Added
+- Email / Text Alerts to notify you that the temperature has reached Warning / Alert Levels. (Requires Pi to have WiFi) 11/2/2021
