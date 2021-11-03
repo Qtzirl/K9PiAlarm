@@ -14,7 +14,7 @@ This is very much a work in progress, code is not optimized, pretty, but it does
 ## Items Recommended:
 - Screen to view the temps, preferably touchscreen to interact with menus etc.
 
-##Setup:
+## Setup:
 - Set up is fairly easy but does require manipulating some code at the moment. 
 - Line 19, TempSensor2 is set to x44 for testing purposes, and needs to be changed to x45.
 - Line 90 & 96 is the email/text alert setup and requires you to enter your sending and receiving email address for it to work. See https://github.com/kootenpv/yagmail for more info about yagmail. 
