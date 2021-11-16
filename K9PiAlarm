@@ -6,6 +6,7 @@ import yagmail
 import adafruit_sht31d
 import alsaaudio
 import tkinter as tk
+from tkinter import messagebox
 from tkinter import *
 
 #Begining of GUI
@@ -56,7 +57,7 @@ def exitk9alarm():
         messagebox.showerror('Error', 'We dun Fucked Up')
 
 def savealarmvalues():
-    file=open('alarmvalues.txt','r+')
+    file=open('/home/pi/Desktop/K9PiAlarm/alarmvalues.txt','r+')
     content=file.readlines()
     alarmthreshold = Toplevel(window)
     alarmthreshold.title("Set Alarm Threshold")
@@ -87,13 +88,13 @@ def savealarmvalues():
     submitnewalarmvalues.grid(row=7, column=0)
 
 #Email ALert Setup
-yag=yagmail.SMTP('email@gmail.com')
+yag=yagmail.SMTP('k9pialarm@gmail.com')
 def emailalert():
-    file=open('emailtimestamp.txt', 'r+')
+    file=open('/home/pi/Desktop/K9PiAlarm/emailtimestamp.txt', 'r+')
     file.seek(0)
     lastemail = time.time()
     file.write(str(lastemail))
-    receiver="Email@gmail.com","PhoneNumber@tmomail.net"
+    receiver="jcoan8235@gmail.com","18563837550@tmomail.net"
     body="A temperature sensor is indicating an alert status. Remove K9 / Investigate Immediately!"
     yag.send(
         to=receiver,
@@ -161,17 +162,13 @@ class App():
         self.update_hum2()
 #Temperature Sensor 1 Update and Alarm
     def update_temp1(self):
-        file=open("alarmvalues.txt", "r")
+        file=open("/home/pi/Desktop/K9PiAlarm/alarmvalues.txt", "r")
         content=file.readlines()
-        timecheck=open("emailtimestamp.txt", "r")
+        timecheck=open("/home/pi/Desktop/K9PiAlarm/emailtimestamp.txt", "r")
         lastemailsent=timecheck.read()
         temp1 = 'Temp Sensor 1:\n{:0.2f}\N{DEGREE SIGN}'.format(tempsensor1.temperature * 1.8 + 32)
         if tempsensor1.temperature * 1.8 + 32 > float(content[0]):
             self.templabel1.configure(text=temp1, fg='red')
-            if time.time()-float(lastemailsent)>100:
-                emailalert()
-            else:
-                pass
         elif tempsensor1.temperature * 1.8 + 32 > float(content[1]):
             self.templabel1.configure(text=temp1, fg='yellow');
             if time.time()-float(lastemailsent)>600:
@@ -182,16 +179,8 @@ class App():
             #pygame.mixer.music.play()
         elif tempsensor1.temperature * 1.8 + 32 < float(content[2]):
             self.templabel1.configure(text=temp1, fg='yellow')
-            if time.time()-float(lastemailsent)>600:
-                emailalert()
-            else:
-                pass
         elif tempsensor1.temperature * 1.8 + 32 < float(content[3]):
             self.templabel1.configure(text=temp1, fg='red')
-            if time.time()-float(lastemailsent)>100:
-                emailalert()
-            else:
-                pass
         else:
             self.templabel1.configure(text=temp1, fg='white')
         self.root.after(5000, self.update_temp1)
@@ -206,46 +195,26 @@ class App():
         self.root.after(5000, self.update_hum1)
     #Temperature Sensor 2 Update and Alarm
     def update_temp2(self):
-        file=open("alarmvalues.txt", "r")
+        file=open("/home/pi/Desktop/K9PiAlarm/alarmvalues.txt", "r")
         content=file.readlines()
-        timecheck=open("emailtimestamp.txt", "r")
+        file.close()
+        timecheck=open("/home/pi/Desktop/K9PiAlarm/emailtimestamp.txt", "r")
         lastemailsent=timecheck.read()
         temp2 = 'Temp Sensor 2:\n{:0.2f}\N{DEGREE SIGN}'.format(tempsensor2.temperature * 1.8 + 32)
         if tempsensor2.temperature * 1.8 + 32 > float(content[0]):
             self.templabel2.configure(text=temp2, fg='red')
-            if time.time()-float(lastemailsent)>100:
-                emailalert()
-            else:
-                pass
         elif tempsensor2.temperature * 1.8 + 32 > float(content[1]):
             self.templabel2.configure(text=temp2, fg='yellow')
-            if time.time()-float(lastemailsent)>600:
-                emailalert()
-            else:
-                pass
         elif tempsensor2.temperature * 1.8 + 32 < float(content[2]):
             self.templabel2.configure(text=temp2, fg='yellow')
-            if time.time()-float(lastemailsent)>600:
-                emailalert()
-            else:
-                pass
         elif tempsensor2.temperature * 1.8 + 32 < float(content[3]):
             self.templabel2.configure(text=temp2, fg='red')
-            if time.time()-float(lastemailsent)>100:
-                emailalert()
-            else:
-                pass
         else:
             self.templabel2.configure(text=temp2, fg='white')
         self.root.after(5000, self.update_temp2)
     def update_hum2(self):
         hum2 = 'Humidity: \n{:0.2F}%'.format(tempsensor2.relative_humidity)
-        if tempsensor2.relative_humidity > 70:
-            self.humlabel2.configure(text=hum2, fg='red')
-        elif tempsensor2.relative_humidity >65:
-            self.humlabel2.configure(text=hum2, fg='yellow')
-        else:
-            self.humlabel2.configure(text=hum2, fg='white')
+        self.humlabel2.configure(text=hum2)
         self.root.after(5000, self.update_hum2)
 app=App()
 
