@@ -94,7 +94,7 @@ def emailalert():
     file.seek(0)
     lastemail = time.time()
     file.write(str(lastemail))
-    receiver="jcoan8235@gmail.com","18563837550@tmomail.net"
+    receiver="email@gmail.com","phone@tmomail.net"
     body="A temperature sensor is indicating an alert status. Remove K9 / Investigate Immediately!"
     yag.send(
         to=receiver,
